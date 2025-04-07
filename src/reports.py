@@ -23,6 +23,7 @@ def save_report(filename):
 
     return decorator
 
+
 @save_report("data/reports.jsonl")
 def spending_by_weekday(
     transactions: pd.DataFrame, date: Optional[str] = None
