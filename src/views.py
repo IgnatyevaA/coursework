@@ -1,14 +1,11 @@
 import json
 from collections import defaultdict
+
 import pandas as pd
 
-from src.utils import (
-    filtered_operations,
-    greetings,
-    info_about_operations,
-    top5_tran,
-    currency_rates,
-)
+from src.utils import (currency_rates, filtered_operations, greetings,
+                       info_about_operations, top5_tran)
+
 
 def write_json_gl(time_setting: str):
     """

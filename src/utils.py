@@ -1,12 +1,11 @@
 import json
 import os
+from datetime import datetime, timedelta
+from typing import Optional
 
 import pandas as pd
 import requests
 from dotenv import load_dotenv
-from datetime import datetime, timedelta
-from typing import Optional
-
 
 load_dotenv()
 API_KEY_CUR_USD = os.getenv("API_KEY_CUR_USD")
