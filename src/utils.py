@@ -18,12 +18,14 @@ operations_df = df.to_dict(orient="records")
 
 
 def get_date_range(date: str) -> tuple[str, str]:
+    """Возвращает даты первый день месяца до введеной даты в формате DD-MM-YYYY"""
     date_obj = datetime.strptime(date, "%Y-%m-%d %H:%M:%S")
     start_of_month = date_obj.replace(day=1)
     return start_of_month.strftime("%d.%m.%Y"), date_obj.strftime("%d.%m.%Y")
 
 
 def filtered_operations(time: str) -> list[dict]:
+    """Сортирует транзакции в зависимости от функции get_date_range"""
     start_date, end_date = get_date_range(time)
     start_date = pd.to_datetime(start_date, dayfirst=True)
     end_date = pd.to_datetime(end_date, dayfirst=True)
@@ -36,6 +38,7 @@ def filtered_operations(time: str) -> list[dict]:
 
 
 def greetings() -> str:
+    """Возвращает привествие в зависимости от времени"""
     time_now = datetime.now().hour
     if 5 <= time_now < 12:
         greeting = "Доброе утро"
@@ -50,6 +53,7 @@ def greetings() -> str:
 
 
 def info_about_operations(operations: list[dict]) -> tuple[list, list, list]:
+    """Возвращает кортеж с информацией о карте"""
     information_cards = []
     information_amount = []
     information_cashback = []
@@ -71,6 +75,7 @@ def info_about_operations(operations: list[dict]) -> tuple[list, list, list]:
 
 
 def top5_tran(operations: list[dict]) -> list[dict]:
+    """Возвращает топ 5 транзакций по сумме платежа"""
     top_transactions = sorted(
         operations, key=lambda x: x["Сумма операции с округлением"], reverse=True
     )
@@ -78,6 +83,7 @@ def top5_tran(operations: list[dict]) -> list[dict]:
 
 
 def currency_rates(user_settings: str) -> tuple[list, list]:
+    """Возвращает информацию о курсах валют и акций использую API"""
     currency_info = []
     stocks_info = []
     with open(user_settings, encoding="utf-8") as file:
@@ -116,6 +122,7 @@ def currency_rates(user_settings: str) -> tuple[list, list]:
 def sorted_by_month(
     transactions: pd.DataFrame, date: Optional[str] = None
 ) -> pd.DataFrame:
+    """Сортирует датафрейм от введенной даты и до трех месяцев до нее"""
     if date is None:
         date = datetime.today().strftime("%Y-%m-%d %H:%M:%S")
 
