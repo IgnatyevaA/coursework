@@ -23,6 +23,17 @@ def save_report(filename):
 
     return decorator
 
+
+DAYS_RU = {
+    0: 'понедельник',
+    1: 'вторник',
+    2: 'среда',
+    3: 'четверг',
+    4: 'пятница',
+    5: 'суббота',
+    6: 'воскресенье'
+}
+
 @save_report("data/reports.jsonl")
 def spending_by_weekday(
     transactions: pd.DataFrame, date: Optional[str] = None
@@ -35,12 +46,17 @@ def spending_by_weekday(
     filtered_data = sorted_by_month(transactions, date)
     result = (
         filtered_data.groupby("Дата платежа", as_index=False)[
-            "Сумма операции с округлением"
+    "Сумма операции с округлением"
         ]
         .mean()
         .rename(columns={"Сумма операции с округлением": "Средняя трата"})
     )
-
+    result["Дата платежа"] = pd.to_datetime(
+    result["Дата платежа"], errors="coerce", dayfirst=True)
+    result["Дата платежа"] = result["Дата платежа"].dt.strftime("%Y-%m-%d")
     result["Средняя трата"] = result["Средняя трата"].round(2)
-
+    result["День недели"] = result["Дата платежа"].apply(
+        lambda x: DAYS_RU[pd.to_datetime(x).weekday()]
+    )
+    result = result[["Дата платежа", "День недели", "Средняя трата"]]
     return result.iloc[::-1].reset_index(drop=True)

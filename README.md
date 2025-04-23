@@ -27,10 +27,11 @@
    cd finance-transactions-analyzer
 2. **Установите зависимости через Poetry:**
     ```bash 
-   poetry install
+   poetry install --no-root    
 3. **Активация виртуального окружения:**
     ```bash
-   poetry shell
+   poetry env use python     
+   poetry env activate    
    
 ## 🧪 Тестирование
 
@@ -38,7 +39,8 @@
 
 1. **Запуск всех тестов:**
     ```bash
-   pytest
+   poetry run pytest
+
 2. **Покрытие тестами:**
 
 ```matlab
